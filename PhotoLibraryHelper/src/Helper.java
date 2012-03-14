@@ -12,16 +12,25 @@ import java.io.IOException;
 public class Helper 
 {
 	
-	// http://en.wikipedia.org/wiki/Gigabyte
+	// class member variable used during size computation. base 1024
 	private static final String[] IEC_BINARY = new String[]{"", "K", "M", "G", "T", "P", "E"};
+	
+	// class member variable used during size computation. base 10
 	private static final String[] SI_DECIMAL = new String[]{"", "K", "M", "G", "T", "P", "E"};
 	
+	// class member variable for tracking the number of files processed
 	private int numberFiles = 0;
 	
+	// class member variable for writing to a file to flatten the photo directories
 	private BufferedWriter outputStream;
+	
+	// class member variable for writing to a file to restore the flattened directories
 	private BufferedWriter restorePictures;
 	
+	// class member variable for the name of the root folder, i.e. source directory
 	private String folderName;
+	
+	// class member variable for the name of the 
 	private String burnFolderName;
 	
 	/**
@@ -33,7 +42,7 @@ public class Helper
 	public Helper(String copyFromRootFolder, String copyToRootFolder) throws IOException 
 	{
 		this.folderName = copyFromRootFolder;
-		this.burnFolderName = burnFolderName + "/" + folderName;
+		this.burnFolderName = copyToRootFolder + "/" + folderName;
 		File burnFolder = new File(this.burnFolderName);
 		boolean val = burnFolder.mkdir();
 		
@@ -55,9 +64,13 @@ public class Helper
 	}
 	
 	/**
+	 * This method calculate the size of the folder starting at the parameter
+	 * directory. Recursion is used to traverse the folder hierarchy. Since
+	 * the context of this helper class is for moving photographs and movies, 
+	 * only those file types are examined for the copy and restore output files.
 	 * 
-	 * @param directory
-	 * @return
+	 * @param directory folder to start determining size
+	 * @return folder size in bytes
 	 * @throws IOException
 	 */
 	public long determineFolderSizeRecusively(File directory) throws IOException
@@ -106,11 +119,13 @@ public class Helper
 	}
 	
 	/**
-	 * Credit to cited URL 
+	 * This method coverts the parameter to the largest possible size. Credit 
+	 * for the algorithm goes to cited URL below. 
 	 * 
 	 * @param bytes to convert
 	 * @return conversion as String
 	 * @see http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
+	 * @see http://en.wikipedia.org/wiki/Gigabyte
 	 */
 	public static String converter(long bytes)
 	{
@@ -162,7 +177,7 @@ public class Helper
 	public static void main(String[] args) throws IOException 
 	{
 		//for (int i = 2002; i <= 2010; ++i)
-		for (int i = 2009; i <= 2009; ++i)
+		for (int i = 2011; i <= 2011; ++i)
 		{
 			System.out.println("###YEAR###" + i);
 			String iphotoLibrary = "/Volumes/MyBook/Pictures/iPhoto Library/" + String.valueOf(i);

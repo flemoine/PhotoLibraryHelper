@@ -7,7 +7,7 @@ import java.io.IOException;
  * This class is my helper for consolidating all photos into annual directories.
  * The month and days are being flattened.
  *  
- * @author nerditup
+ * @author kompseye
  *
  */
 public class DivideAndConquer 
@@ -83,11 +83,13 @@ public class DivideAndConquer
 	}
 	
 	/**
-	 * Credit to cited URL 
+	 * This method coverts the parameter to the largest possible size. Credit 
+	 * for the algorithm goes to cited URL below. 
 	 * 
 	 * @param bytes to convert
 	 * @return conversion as String
 	 * @see http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
+	 * @see http://en.wikipedia.org/wiki/Gigabyte
 	 */
 	public static String converter(long bytes)
 	{
