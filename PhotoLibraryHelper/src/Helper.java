@@ -127,7 +127,7 @@ public class Helper
 	 * @see http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
 	 * @see http://en.wikipedia.org/wiki/Gigabyte
 	 */
-	public static String converter(long bytes)
+	public static String convertSizeUsingBinary(long bytes)
 	{
 		String conversion = Long.toString(bytes);
 		
@@ -135,7 +135,6 @@ public class Helper
 		{
 			// determine the largest divisor for the bytes
 			double largestDivisor = Math.pow(1024, exponent);
-			//double largestDivisor = Math.pow(10, 3);
 			if (bytes > largestDivisor)
 			{
 				conversion = String.format("%3.1f %s", bytes / largestDivisor, IEC_BINARY[exponent]);
@@ -145,6 +144,33 @@ public class Helper
 		
 		return conversion;
 	}
+	
+	/**
+	 * This method coverts the parameter to the largest possible size. Credit 
+	 * for the algorithm goes to cited URL below. 
+	 * 
+	 * @param bytes to convert
+	 * @return conversion as String
+	 * @see http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
+	 * @see http://en.wikipedia.org/wiki/Gigabyte
+	 */
+	public static String convertSizeUsingDecimal(long bytes)
+	{
+		String conversion = Long.toString(bytes);
+		
+		for (int exponent = 6; exponent > 0; exponent--)
+		{
+			// determine the largest divisor for the bytes			
+			double largestDivisor = Math.pow(10, (exponent * 3) );
+			if (bytes > largestDivisor)
+			{
+				conversion = String.format("%3.1f %s", bytes / largestDivisor, SI_DECIMAL[exponent]);
+				break;
+			}
+		}
+		
+		return conversion;
+	}	
 	
 	/**
 	 * Accessor method for the number of files.
@@ -186,7 +212,8 @@ public class Helper
 			long size = myHelper.determineFolderSizeRecusively(new File(iphotoLibrary));
 			System.out.println("Size is: " + size);
 			System.out.println("Number of files: " + myHelper.getNumberFiles());
-			System.out.println("Converted Size is: " + Helper.converter(size));
+			System.out.println("Converted Size (binary) is: " + Helper.convertSizeUsingBinary(size));
+			System.out.println("Converted Size (decimal) is: " + Helper.convertSizeUsingDecimal(size));
 			myHelper.closeFile();
 			System.out.println();
 		}

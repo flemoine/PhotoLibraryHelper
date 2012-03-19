@@ -1,0 +1,36 @@
+<project name="PhotoLibraryHelper" default="dist" basedir=".">
+   <description>
+      Add a description here
+   </description>
+
+   <property name="src" location="src"/>
+   <property name="bin" location="bin"/>
+   <property name="dist" location="dist"/>
+   <property name="test" location="test"/>
+
+   <target name="init">
+      <tstamp/>
+      <mkdir dir="${bin}"/>
+      <mkdir dir="${dist}"/>
+   </target>
+
+   <target depends="init" name="compile" description="compile code">
+      <javac srcdir="${src}" destdir="${bin}"/>
+   </target>
+
+   <target depends="init" name="compile-test" description="compile test code">
+      <javac srcdir="${test}" destdir="${bin}"/>
+   </target>
+
+   <target depends="compile" name="dist" description="distribute code">
+      <mkdir dir="${dist}"/>
+      <jar jarfile="${dist}/PhotoLibraryHelper-${DSTAMP}.jar" basedir="${build}"/>
+   </target>
+
+   <target name="clean" description="clean code">
+      <delete dir="${bin}"/>
+      <delete dir="${dist}"/>
+   </target>
+
+</project>
+
